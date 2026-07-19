@@ -311,7 +311,7 @@
 
   /* ---------- Photo break (editorial full-bleed image) ---------- */
   .photo-break{ position: relative; line-height: 0; }
-  .photo-break img{ width: 100%; max-height: 520px; object-fit: cover; object-position: center 20%; }
+  .photo-break img{ width: 100%; height: auto; display: block; }
   .photo-break-caption{
     position: absolute; left: 28px; bottom: 22px;
     font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em;
@@ -358,7 +358,6 @@
     .team-member.reverse .team-text{ order: 2; }
     .team-photo img{ max-width: 320px; margin: 0 auto; }
     .nl-gallery{ grid-template-columns: 1fr; }
-    .photo-break img{ max-height: 320px; }
   }
 </style>
 </head>
