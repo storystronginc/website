@@ -624,11 +624,12 @@ Bringing my financial expertise to help get this off the ground feels like the p
       <p>We send occasional updates about upcoming events, ticket releases, and where the funds are going. No spam, just chapters worth reading.</p>
     </div>
     <div>
-      <form class="signup" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Thank you!';">
-        <input type="email" required placeholder="you@email.com" aria-label="Email address">
+      <form class="signup" onsubmit="submitSignupForm(event)">
+        <input type="email" name="EMAIL" required placeholder="you@email.com" aria-label="Email address">
+        <input type="text" name="email_address_check" value="" style="position:absolute; left:-9999px;" tabindex="-1" autocomplete="off" aria-hidden="true">
         <button type="submit" class="btn btn-gold">Sign Up</button>
       </form>
-      <div class="form-note">Replace this form action with your email platform (Mailchimp, Flodesk, etc.) once connected.</div>
+      <div class="form-note">We'll never share your email. Unsubscribe anytime.</div>
     </div>
   </div>
 </section>
@@ -653,7 +654,7 @@ Bringing my financial expertise to help get this off the ground feels like the p
       <div>
         <h4>Connect</h4>
         <ul>
-          <li><a href="mailto:hello@storystrong.org">hello@storystrong.org</a></li>
+          <li><a href="mailto:storystronginc@gmail.com">storystronginc@gmail.com</a></li>
           <li><a href="#contact">Sign Up</a></li>
           <li><a href="https://instagram.com/storystrongink" target="_blank" rel="noopener">Instagram — @storystrongink</a></li>
         </ul>
@@ -666,5 +667,37 @@ Bringing my financial expertise to help get this off the ground feels like the p
   </div>
 </footer>
 
+<script>
+  function submitSignupForm(event){
+    event.preventDefault();
+    var form = event.target;
+    var btn = form.querySelector('button');
+    var emailInput = form.querySelector('input[name="EMAIL"]');
+    var honeypot = form.querySelector('input[name="email_address_check"]');
+    if (honeypot && honeypot.value) { return false; } // bot caught, silently drop
+
+    var originalText = btn.textContent;
+    btn.textContent = 'Sending…';
+
+    var body = new URLSearchParams();
+    body.append('EMAIL', emailInput.value);
+    body.append('email_address_check', '');
+    body.append('locale', 'en');
+
+    fetch('https://1a2702ec.sibforms.com/serve/MUIFAFTGWS6kiMkzHzDV40HK3t4a5vHQAnLcSlA4eLv6fN4u3qhDtz1g4Li0FrfYouHeG-Pq9ccj7MesaSVkS02TrhB34faDneS1-F_Bu-BAwZL8TLkceSdtl8wqtE4X9w2z6UXY24NnWbng3dW0AxNB60vC7cx8aY7LQ5SmeVW-T3ubjFV_1KoRyD6SlQfuuoN9xYfyVieJndnPOw==', {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: body.toString()
+    }).catch(function(){ /* opaque no-cors response, errors are rare and non-blocking */ })
+      .finally(function(){
+        btn.textContent = 'Thank you!';
+        form.reset();
+        setTimeout(function(){ btn.textContent = originalText; }, 4000);
+      });
+
+    return false;
+  }
+</script>
 </body>
 </html>
